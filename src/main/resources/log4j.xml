@@ -11,7 +11,7 @@
 	</appender>
 
 	<!-- Application Loggers -->
-	<logger name="com.psl.spring">
+	<logger name="com.psl.plugginsssss">
 		<level value="info" />
 	</logger>
 

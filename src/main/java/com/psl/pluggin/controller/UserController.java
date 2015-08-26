@@ -1,5 +1,6 @@
 package com.psl.pluggin.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.psl.pluggin.model.User;
+import com.psl.pluggin.service.RepositoryService;
 
 
 
@@ -30,6 +33,9 @@ import com.psl.pluggin.model.User;
 public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	
+	@Autowired
+	public RepositoryService repositoryService;
 	
 	/**
 	 *Method validates user credentials
@@ -47,10 +53,12 @@ public class UserController {
 		logger.info("Username:"+userName+" Password:"+password);
 	User user=new User();
 	user.setUserName(userName);
-	user.setPassword(password);
-	List<String> str=new ArrayList<String>();
-	str.add("vishal");
-	user.setAllowedurls(str);
+	try {
+		user.setAuthorised(repositoryService.authenticate(userName, password));
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 

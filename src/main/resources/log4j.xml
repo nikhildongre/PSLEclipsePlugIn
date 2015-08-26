@@ -11,7 +11,7 @@
 	</appender>
 
 	<!-- Application Loggers -->
-	<logger name="com.psl.plugginsssss">
+	<logger name="com.psl.pluggin">
 		<level value="info" />
 	</logger>
 
@@ -38,7 +38,7 @@
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
 

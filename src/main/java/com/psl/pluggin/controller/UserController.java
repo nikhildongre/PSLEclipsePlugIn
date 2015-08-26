@@ -1,7 +1,12 @@
 package com.psl.pluggin.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -22,7 +27,7 @@ import com.psl.pluggin.model.User;
  *
  */
 
-@RestController
+
 public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -31,9 +36,11 @@ public class UserController {
 	 *Method validates user credentials
 	 *
 	 */
-	@RequestMapping(value="/validate",method = RequestMethod.POST)
+	//@RequestMapping(value="/validate",method = RequestMethod.POST)
 	//@Consumes(value=MediaType.APPLICATION_JSON)
-	@Produces(value=MediaType.APPLICATION_JSON)
+	@POST
+	@Path("/validate")
+	@Produces({ "application/json"})
 	public Response validateUser(@FormParam("username") String userName,
 								@FormParam("password") String password) {
 		System.out.println("Username:"+userName+" Password:"+password);
@@ -41,6 +48,9 @@ public class UserController {
 	User user=new User();
 	user.setUserName(userName);
 	user.setPassword(password);
+	List<String> str=new ArrayList<String>();
+	str.add("vishal");
+	user.setAllowedurls(str);
 	return Response.ok(user).build();
 	}
 

@@ -14,6 +14,8 @@ import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +29,7 @@ import com.psl.pluggin.model.User;
  *
  */
 
-
+@RestController
 public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -36,12 +38,8 @@ public class UserController {
 	 *Method validates user credentials
 	 *
 	 */
-	//@RequestMapping(value="/validate",method = RequestMethod.POST)
-	//@Consumes(value=MediaType.APPLICATION_JSON)
-	@POST
-	@Path("/validate")
-	@Produces({ "application/json"})
-	public Response validateUser(@FormParam("username") String userName,
+	@RequestMapping(value="/validate",method = RequestMethod.POST)
+	public ResponseEntity<User> validateUser(@FormParam("username") String userName,
 								@FormParam("password") String password) {
 		System.out.println("Username:"+userName+" Password:"+password);
 		logger.info("Username:"+userName+" Password:"+password);
@@ -51,7 +49,7 @@ public class UserController {
 	List<String> str=new ArrayList<String>();
 	str.add("vishal");
 	user.setAllowedurls(str);
-	return Response.ok(user).build();
+	return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
 }

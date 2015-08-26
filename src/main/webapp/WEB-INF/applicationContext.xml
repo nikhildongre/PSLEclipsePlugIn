@@ -22,13 +22,6 @@
 	<context:component-scan base-package="com.psl.pluggin"
 		use-default-filters="true" />
 		
-	
-		
-	<bean class="com.psl.pluggin.controller.UserController" id="UserControllerclass"/>
-	<bean id="jsonProvider" 
-		class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
-
-		
 
 	<!-- <beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">

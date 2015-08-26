@@ -18,10 +18,18 @@ public class User {
 	
 	String userName;
 	String password;
+	String url;
 	boolean isAccessible;
 	boolean isAuthorised;
 	List<String> allowedurls;
 	
+	
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
 	@XmlElement
 	public String getUserName() {
 		return userName;
@@ -60,7 +68,7 @@ public class User {
 	}
 	@Override
 	public String toString() {
-		return "User [userName=" + userName + ", password=" + password
+		return "User [userName=" + userName + ", password=" + password+",Url= "+url
 				+ ", isAccessible=" + isAccessible + ", isAuthorised="
 				+ isAuthorised + ", allowedurls=" + allowedurls + "]";
 	}

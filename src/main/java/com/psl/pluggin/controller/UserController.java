@@ -27,7 +27,7 @@ import com.psl.pluggin.model.User;
  *
  */
 
-
+@RestController
 public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -36,12 +36,8 @@ public class UserController {
 	 *Method validates user credentials
 	 *
 	 */
-	//@RequestMapping(value="/validate",method = RequestMethod.POST)
-	//@Consumes(value=MediaType.APPLICATION_JSON)
-	@POST
-	@Path("/validate")
-	@Produces({ "application/json"})
-	public Response validateUser(@FormParam("username") String userName,
+	@RequestMapping(value="/validate",method = RequestMethod.POST)
+	public ResponseEntity<User> validateUser(@FormParam("username") String userName,
 								@FormParam("password") String password) {
 		System.out.println("Username:"+userName+" Password:"+password);
 		logger.info("Username:"+userName+" Password:"+password);
@@ -51,7 +47,7 @@ public class UserController {
 	List<String> str=new ArrayList<String>();
 	str.add("vishal");
 	user.setAllowedurls(str);
-	return Response.ok(user).build();
+	return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
 }

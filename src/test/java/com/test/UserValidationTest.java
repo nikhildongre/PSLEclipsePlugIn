@@ -55,14 +55,15 @@ public class UserValidationTest {
 	 @Test
 	    public void testValidate() throws Exception {
 
-	        String userName="vishal";
+	        String userName="vishalgupta12";
 	        String password="testing123";
 
 	        mockMvc.perform(
 	                post("/validate").param("username",userName).param("password", password))
 	                .andExpect(MockMvcResultMatchers.status().isOk())
 	                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-	                .andExpect(jsonPath("userName", is(userName)));
+	                .andExpect(jsonPath("userName", is(userName)))
+	                .andExpect(jsonPath("authorised", is(true)));
 	    }
 
 }

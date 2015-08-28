@@ -6,7 +6,8 @@ import java.util.List;
 
 import org.kohsuke.github.GHContent;
 import org.kohsuke.github.GitHub;
-import org.kohsuke.github.PagedIterable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.psl.pluggin.model.RepositoryFile;
@@ -21,22 +22,31 @@ public class RepositoryService {
 	final static String FILE = "FILE";
 	final static String DIRECTORY = "DIRECTORY";
 
+	private static final Logger logger = LoggerFactory
+			.getLogger(RepositoryService.class);
+	
 	public RepositoryService() {
 	}
 
 	public boolean authenticate(String userName, String password)
 			throws IOException {
+		logger.info("authenticating user .....");
 		GitHub gitHub = GitHub.connectUsingPassword(userName, password);
+		logger.info("is user Authorised ? "+gitHub.isCredentialValid());
 		return gitHub.isCredentialValid();
 	}
 
 	public User getTreeStructure(User user) {
+		
+		logger.info(" :: getTreeStructure starts:: ");
 		List<RepositoryFile> currentBranchTree = new ArrayList<RepositoryFile>();
 		List<GHContent> contentList = null;
 		String path = user.getUrl();
 		String[] urlArray = null;
+		logger.info("path : "+path);
 		if (path != null) {
 			path = path.replace(gitPrefixUrl, "");
+			logger.info("path after replace : "+path);
 			urlArray = splitGitURL(path);
 			try {
 				GHContent ghContent = GitHub
@@ -45,14 +55,17 @@ public class RepositoryService {
 						.getFileContent(urlArray[1]);
 				user.setUrlAccessible(true);
 				if (ghContent.isFile()) {
+					logger.info("::  Fetching file content : : ");
 					RepositoryFile file = new RepositoryFile(
 							ghContent.getName(), ghContent.getHtmlUrl(),
 							isFileOrDirectory(ghContent));
 					file.setFileContent(ghContent.getContent());
 					currentBranchTree.add(file);
 				}
-			} catch (IOException e) {
+			} catch (Exception e) {
 				try {
+					
+					logger.info(" :: fetching subtree :: ");
 					contentList = GitHub
 							.connectUsingPassword(user.getUserName(),
 									user.getPassword())
@@ -66,14 +79,17 @@ public class RepositoryService {
 								isFileOrDirectory(content)));
 					}
 
-				} catch (IOException ie) {
+				} catch (Exception ie) {
 					user.setUrlAccessible(false);
-					System.out.println(ie.getMessage());
+					logger.info("Exception in URL :: ");
+					logger.error("Exception in URL :: "+ie);
+					logger.info(" :: getTreeStructure Ends:: ");
 					return user;
 				}
 			}
 			user.setRepositoryFiles(currentBranchTree);
 		}
+		logger.info(" :: getTreeStructure Ends:: ");
 		return user;
 	}
 

@@ -33,6 +33,34 @@
 </property>
 </bean>
 
+	
+    
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+ 
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/User" />
+        <property name="username" value="root" />
+        <property name="password" value="system" />
+    </bean>
+    
+	<!--  <bean id="controller" class="com.psl.pluggin.controller.UserController" >
+	 	<property name="auditDAO" ref="auditDAO" />
+	 	<property name="ad" ref="ad" />
+	 	
+	 </bean> -->
+	 
+	 <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+	 	<property name="dataSource" ref="dataSource" />
+	 </bean>
+	 
+	<!--  <bean id="auditDAO" class="com.psl.pluggin.dao.AuditDAOImpl">
+	 <property name="jdbcTemplate" ref="jdbcTemplate" />
+        
+    </bean> -->
+	 
+	  
+	 
+	 <bean id="ad" class="com.psl.pluggin.model.Audit"/>
 	<!-- <beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -70,5 +98,5 @@
 		<beans:property name="sessionFactory" ref="sessionFactory" />
 	</beans:bean> -->
 
-
+<context:component-scan base-package="com.psl.pluggin.dao" />
 </beans>

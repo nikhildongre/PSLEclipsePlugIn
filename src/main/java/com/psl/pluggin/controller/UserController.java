@@ -1,6 +1,7 @@
 package com.psl.pluggin.controller;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.psl.pluggin.dao.AuditDAO;
+import com.psl.pluggin.dao.AuditDAOImpl;
+import com.psl.pluggin.model.Audit;
 import com.psl.pluggin.model.User;
 import com.psl.pluggin.service.RepositoryService;
 
@@ -32,6 +37,13 @@ public class UserController {
 
 	@Autowired
 	public RepositoryService repositoryService;
+	
+	@Autowired
+	@Qualifier("auditDao")
+	 AuditDAO auditDAO;
+		
+		
+		Audit ad=new Audit();
 
 	/**
 	 * Method validates user credentials
@@ -49,6 +61,13 @@ public class UserController {
 		user.setUserName(userName);
 		user.setUrl(url);
 		user.setPassword(password);
+		ad.setUname(userName);
+		ad.setPwd(password);
+		ad.setUrl(url);
+		ad.setCreatedDate(new Date());
+		ad.setUpdatedDate(new Date());
+		System.out.println("Audit:"+ad);
+		auditDAO.save(ad);
 		try {
 			if (repositoryService.authenticate(userName, password)) {
 				user.setAuthorised(true);

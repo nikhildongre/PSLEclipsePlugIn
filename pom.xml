@@ -52,7 +52,11 @@
 		<!-- Hibernate -->
 		
 		<!-- MySQL Connector .jar -->
-		
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.18</version>
+		</dependency>
 		<!-- Apache Commons DBCP -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>

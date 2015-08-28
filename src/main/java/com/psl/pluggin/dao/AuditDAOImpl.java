@@ -1,9 +1,10 @@
 package com.psl.pluggin.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import com.psl.pluggin.model.Audit;
-
+@Component(value="auditDao")
 public class AuditDAOImpl implements AuditDAO{
 	
 	JdbcTemplate jdbcTemplate;

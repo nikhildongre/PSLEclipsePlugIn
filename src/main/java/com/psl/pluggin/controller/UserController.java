@@ -1,20 +1,14 @@
 package com.psl.pluggin.controller;
 
 import java.io.IOException;
-
 import java.util.Date;
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javax.ws.rs.core.MediaType;
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,83 +22,60 @@ import com.psl.pluggin.model.Audit;
 import com.psl.pluggin.model.User;
 import com.psl.pluggin.service.RepositoryService;
 
+
+
 /**
  * @author vishal_gupta1
- * 
+ *
  */
 
 @RestController
 public class UserController {
-
-	private static final Logger logger = LoggerFactory
-			.getLogger(UserController.class);
-
+	
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	
 	@Autowired
 	public RepositoryService repositoryService;
-
+	
+	@Autowired 
+	AuditDAO auditDAO;
 	
 	
-	 AuditDAO auditDAO=new AuditDAOImpl();
-		
-		
-		Audit ad=new Audit();
-
-
+	Audit ad=new Audit();
+	
+	
+	
 	/**
-	 * Method validates user credentials
-	 * 
+	 *Method validates user credentials
+	 *
 	 */
-
-	
-	@RequestMapping(value = "/validate", method = RequestMethod.POST,produces=MediaType.APPLICATION_JSON)
+	@RequestMapping(value="/validate",method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<User> validateUser(HttpServletRequest request,
-			HttpServletResponse response) {
-		String userName = request.getParameter("username");
-		String password = request.getParameter("password");
-		String url = request.getParameter("url");
-		logger.info("Username:" + userName + " url:" + url);
-		User user = new User();
-		user.setUserName(userName);
-		user.setUrl(url);
-		user.setPassword(password);
-
-		ad.setUname(userName);
-		ad.setPwd(password);
-		ad.setUrl(url);
-		ad.setCreatedDate(new Date());
-		ad.setUpdatedDate(new Date());
-		System.out.println("Audit:"+ad);
-	//	auditDAO.save(ad);
-
-		try {
-			if (repositoryService.authenticate(userName, password)) {
-				user.setAuthorised(true);
-				repositoryService.getTreeStructure(user);
-			} else {
-				user.setAuthorised(false);
-			}
-		} catch (IOException e) {
-			user.setAuthorised(false);
-			logger.info("Exception in validating User  :" + e.getMessage());
-		}
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+            HttpServletResponse response) {
+		String userName=request.getParameter("username");
+		String password=request.getParameter("password");
+		String url=request.getParameter("password");
+		
+		System.out.println("Username:"+userName+" Password:"+url);
+		logger.info("Username:"+userName+" Password:"+password);
+	User user=new User();
+	user.setUserName(userName);
+	
+	ad.setUname(userName);
+	ad.setPwd(password);
+	ad.setUrl(url);
+	ad.setCreatedDate(new Date());
+	ad.setUpdatedDate(new Date());
+	auditDAO.save(ad);
+	
+	try {
+		user.setAuthorised(repositoryService.authenticate(userName, password));
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 	}
-
-	@RequestMapping(value = "/getRepostiorySubTree", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<User> getRepostiorySubTree(
-			HttpServletRequest request, HttpServletResponse response) {
-		String userName = request.getParameter("username");
-		String password = request.getParameter("password");
-		String url = request.getParameter("url");
-		logger.info("Username:" + userName + " url:" + url);
-		User user = new User();
-		user.setUserName(userName);
-		user.setUrl(url);
-		user.setPassword(password);
-		repositoryService.getTreeStructure(user);
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+	return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
 }

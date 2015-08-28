@@ -38,7 +38,7 @@
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
  
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/User" />
+        <property name="url" value="jdbc:mysql://localhost:3306/test" />
         <property name="username" value="root" />
         <property name="password" value="system" />
     </bean>
@@ -53,10 +53,10 @@
 	 	<property name="dataSource" ref="dataSource" />
 	 </bean>
 	 
-	<!--  <bean id="auditDAO" class="com.psl.pluggin.dao.AuditDAOImpl">
+	 <bean id="auditDAO" class="com.psl.pluggin.dao.AuditDAOImpl">
 	 <property name="jdbcTemplate" ref="jdbcTemplate" />
         
-    </bean> -->
+    </bean>
 	 
 	  
 	 

@@ -1,17 +1,15 @@
 package com.psl.pluggin.controller;
 
 import java.io.IOException;
-<<<<<<< HEAD
+
 import java.util.Date;
-=======
->>>>>>> branch 'master' of https://github.com/nikhildongre/PSLEclipsePlugIn
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-<<<<<<< HEAD
+
 import javax.ws.rs.core.MediaType;
-=======
->>>>>>> branch 'master' of https://github.com/nikhildongre/PSLEclipsePlugIn
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,26 +41,22 @@ public class UserController {
 
 	@Autowired
 	public RepositoryService repositoryService;
-<<<<<<< HEAD
+
 	
-	@Autowired
-	@Qualifier("auditDao")
-	 AuditDAO auditDAO;
+	
+	 AuditDAO auditDAO=new AuditDAOImpl();
 		
 		
 		Audit ad=new Audit();
-=======
->>>>>>> branch 'master' of https://github.com/nikhildongre/PSLEclipsePlugIn
+
 
 	/**
 	 * Method validates user credentials
 	 * 
 	 */
-<<<<<<< HEAD
+
+	
 	@RequestMapping(value = "/validate", method = RequestMethod.POST,produces=MediaType.APPLICATION_JSON)
-=======
-	@RequestMapping(value = "/validate", method = RequestMethod.POST)
->>>>>>> branch 'master' of https://github.com/nikhildongre/PSLEclipsePlugIn
 	@ResponseBody
 	public ResponseEntity<User> validateUser(HttpServletRequest request,
 			HttpServletResponse response) {
@@ -74,16 +68,15 @@ public class UserController {
 		user.setUserName(userName);
 		user.setUrl(url);
 		user.setPassword(password);
-<<<<<<< HEAD
+
 		ad.setUname(userName);
 		ad.setPwd(password);
 		ad.setUrl(url);
 		ad.setCreatedDate(new Date());
 		ad.setUpdatedDate(new Date());
 		System.out.println("Audit:"+ad);
-		auditDAO.save(ad);
-=======
->>>>>>> branch 'master' of https://github.com/nikhildongre/PSLEclipsePlugIn
+	//	auditDAO.save(ad);
+
 		try {
 			if (repositoryService.authenticate(userName, password)) {
 				user.setAuthorised(true);

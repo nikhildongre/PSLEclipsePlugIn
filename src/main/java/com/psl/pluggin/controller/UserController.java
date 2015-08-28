@@ -56,7 +56,9 @@ public class UserController {
 	User user=new User();
 	user.setUserName(userName);
 	try {
-		user.setAuthorised(repositoryService.authenticate(userName, password));
+		boolean isAuth=repositoryService.authenticate(userName, password);
+		
+		user.setAuthorised(isAuth);
 	} catch (IOException e) {
 		e.printStackTrace();
 	}

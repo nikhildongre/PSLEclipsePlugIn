@@ -55,12 +55,13 @@ public class UserController {
             HttpServletResponse response) {
 		String userName=request.getParameter("username");
 		String password=request.getParameter("password");
-		String url=request.getParameter("password");
+		String url=request.getParameter("url");
 		
 		System.out.println("Username:"+userName+" Password:"+url);
 		logger.info("Username:"+userName+" Password:"+password);
 	User user=new User();
 	user.setUserName(userName);
+	user.setUrl(url);
 	
 	ad.setUname(userName);
 	ad.setPwd(password);

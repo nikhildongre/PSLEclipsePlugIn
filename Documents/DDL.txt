@@ -1,0 +1,10 @@
+create table Audit
+(
+	uid int NOT NULL AUTO_INCREMENT,
+	uname varchar(30),
+	pwd   varchar(30),
+ 	url   varchar(256),
+	crte_tms DATE,
+	upd_tms DATE,
+	PRIMARY KEY (uid)
+);

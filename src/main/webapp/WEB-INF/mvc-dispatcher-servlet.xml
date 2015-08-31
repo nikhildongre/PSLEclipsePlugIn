@@ -19,6 +19,7 @@
 	
 
 	<!-- filter -->
+	<context:property-placeholder location="/WEB-INF/jdbc.properties" />
 	<context:component-scan base-package="com.psl.pluggin"
 		use-default-filters="true" />
 		
@@ -37,10 +38,10 @@
     
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
  
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/test" />
-        <property name="username" value="root" />
-        <property name="password" value="system" />
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.databaseurl}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
     </bean>
     
 	<!--  <bean id="controller" class="com.psl.pluggin.controller.UserController" >

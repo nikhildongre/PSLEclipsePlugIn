@@ -38,13 +38,8 @@ public class UserController {
 	public RepositoryService repositoryService;
 	
 	@Autowired 
-	AuditDAO auditDAO;
-	
-	
-	Audit ad=new Audit();
-	
-	
-	
+	AuditDAO auditDAO;	
+	Audit ad=new Audit();	
 	/**
 	 *Method validates user credentials
 	 *
@@ -56,27 +51,48 @@ public class UserController {
 		String userName=request.getParameter("username");
 		String password=request.getParameter("password");
 		String url=request.getParameter("url");
-		
-		System.out.println("Username:"+userName+" Password:"+url);
 		logger.info("Username:"+userName+" Password:"+password);
-	User user=new User();
-	user.setUserName(userName);
-	user.setUrl(url);
+		User user=new User();
+		user.setUserName(userName);
+		user.setUrl(url);
+		
+		ad.setUname(userName);
+		ad.setPwd(password);
+		ad.setUrl(url);
+		ad.setCreatedDate(new Date());
+		ad.setUpdatedDate(new Date());
+		auditDAO.save(ad);
 	
-	ad.setUname(userName);
-	ad.setPwd(password);
-	ad.setUrl(url);
-	ad.setCreatedDate(new Date());
-	ad.setUpdatedDate(new Date());
-	auditDAO.save(ad);
-	
-	try {
-		user.setAuthorised(repositoryService.authenticate(userName, password));
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+    try {
+	        if (repositoryService.authenticate(userName, password)) {
+	              user.setAuthorised(true);
+	               repositoryService.getTreeStructure(user);
+	        } else {
+	              user.setAuthorised(false);
+	        }
+		 } catch (IOException e) {
+		        user.setAuthorised(false);
+		        logger.info("Exception in validating User  :" + e.getMessage());
+		 }
+
 	return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
+	
+    @RequestMapping(value = "/getRepostiorySubTree", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<User> getRepostiorySubTree(
+                  HttpServletRequest request, HttpServletResponse response) {
+           String userName = request.getParameter("username");
+           String password = request.getParameter("password");
+           String url = request.getParameter("url");
+           logger.info("Username:" + userName + " url:" + url);
+           User user = new User();
+           user.setUserName(userName);
+           user.setUrl(url);
+           user.setPassword(password);
+           repositoryService.getTreeStructure(user);
+           return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
 
 }

@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.*;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -36,7 +37,8 @@ public class UserValidationTest
 {
 	@InjectMocks
 	 private UserController userController;
-	    private MockMvc mockMvc;
+	   
+	private MockMvc mockMvc;
 	    
 	    @Spy
 	    private RepositoryService userService;
@@ -52,7 +54,7 @@ public class UserValidationTest
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup( userController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(userController).setHandlerExceptionResolvers(new ExceptionHandlerExceptionResolver()).build();
     }
 
     @Test
@@ -61,8 +63,10 @@ public class UserValidationTest
     {
         String userName = "vishalgupta12";
         String password = "testing123";
+        String url="https://github.com/nikhildongre/PSLEclipsePlugIn";
+        System.out.println(mockMvc);
         mockMvc.perform(post("/validate").param("username",  userName
-        ).param("password", password)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.jsonPath("userName", Matchers.is(userName))).andExpect(MockMvcResultMatchers.jsonPath("authorised", Matchers.is(Boolean.valueOf(true))));
+        ).param("password", password).param("url", url)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.jsonPath("userName", Matchers.is(userName))).andExpect(MockMvcResultMatchers.jsonPath("authorised", Matchers.is(Boolean.valueOf(true))));
     }
 
    

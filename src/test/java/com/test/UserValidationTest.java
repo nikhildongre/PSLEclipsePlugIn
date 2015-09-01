@@ -1,14 +1,19 @@
 package com.test;
 
 import com.psl.pluggin.controller.UserController;
+import com.psl.pluggin.dao.AuditDAO;
+import com.psl.pluggin.model.Audit;
 import com.psl.pluggin.service.RepositoryService;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -23,7 +28,8 @@ import org.springframework.test.web.servlet.result.*;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
-
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.when;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -42,6 +48,10 @@ public class UserValidationTest
 	    
 	    @Spy
 	    private RepositoryService userService;
+	    
+	    
+	    @Mock
+	    AuditDAO mockAuditDAO ;
 	    
 	    private static MockHttpServletRequest request;
 	    private static MockHttpServletResponse response;
@@ -64,9 +74,20 @@ public class UserValidationTest
         String userName = "vishalgupta12";
         String password = "testing123";
         String url="https://github.com/nikhildongre/PSLEclipsePlugIn";
-        System.out.println(mockMvc);
+        Mockito.doNothing().when(mockAuditDAO).save(isA(Audit.class));
         mockMvc.perform(post("/validate").param("username",  userName
         ).param("password", password).param("url", url)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.jsonPath("userName", Matchers.is(userName))).andExpect(MockMvcResultMatchers.jsonPath("authorised", Matchers.is(Boolean.valueOf(true))));
+    }
+    
+    @Test
+    public void testRepoTree()
+        throws Exception
+    {
+        String userName = "vishalgupta12";
+        String password = "testing123";
+        String url="https://github.com/nikhildongre/PSLEclipsePlugIn";
+        mockMvc.perform(post("/getRepostiorySubTree").param("username",  userName
+        ).param("password", password).param("url", url)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)).andExpect(MockMvcResultMatchers.jsonPath("userName", Matchers.is(userName)));
     }
 
    

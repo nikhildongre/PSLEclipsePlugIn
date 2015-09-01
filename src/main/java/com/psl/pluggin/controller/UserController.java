@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,13 +39,15 @@ public class UserController {
 	public RepositoryService repositoryService;
 	
 	@Autowired 
-	AuditDAO auditDAO;	
-	Audit ad=new Audit();	
+	AuditDAO auditDAO;
+	
+	
+		
 	/**
 	 *Method validates user credentials
 	 *
 	 */
-	@RequestMapping(value="/validate",method = RequestMethod.POST)
+	@RequestMapping(value="/validate",method = RequestMethod.POST,produces=MediaType.APPLICATION_JSON)
 	@ResponseBody
 	public ResponseEntity<User> validateUser(HttpServletRequest request,
             HttpServletResponse response) {
@@ -55,7 +58,7 @@ public class UserController {
 		User user=new User();
 		user.setUserName(userName);
 		user.setUrl(url);
-		
+		Audit ad=new Audit();
 		ad.setUname(userName);
 		ad.setPwd(password);
 		ad.setUrl(url);
@@ -78,7 +81,7 @@ public class UserController {
 	return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
-    @RequestMapping(value = "/getRepostiorySubTree", method = RequestMethod.POST)
+    @RequestMapping(value = "/getRepostiorySubTree", method = RequestMethod.POST,produces=MediaType.APPLICATION_JSON)
     @ResponseBody
     public ResponseEntity<User> getRepostiorySubTree(
                   HttpServletRequest request, HttpServletResponse response) {

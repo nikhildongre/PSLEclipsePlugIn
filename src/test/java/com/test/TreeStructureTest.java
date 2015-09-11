@@ -85,7 +85,7 @@ public class TreeStructureTest
         List<RepositoryFile>  repositoryFiles = new ArrayList<RepositoryFile>();
         
        
-    	repositoryFiles.add(new RepositoryFile("Documents","https://github.com/nikhildongre/PSLEclipsePlugIn/tree/master/Documents","DIRECTORY"));
+    	/*repositoryFiles.add(new RepositoryFile("Documents","https://github.com/nikhildongre/PSLEclipsePlugIn/tree/master/Documents","DIRECTORY"));
     	repositoryFiles.add(new RepositoryFile("README.md","https://github.com/nikhildongre/PSLEclipsePlugIn/blob/master/README.md","FILE"));
     	repositoryFiles.add(new RepositoryFile("pom.xml","https://github.com/nikhildongre/PSLEclipsePlugIn/blob/master/pom.xml","FILE"));
     	repositoryFiles.add(new RepositoryFile("src","https://github.com/nikhildongre/PSLEclipsePlugIn/tree/master/src","DIRECTORY"));
@@ -96,7 +96,7 @@ public class TreeStructureTest
         User user = new User();
         user.setUserName(userName);
         user.setPassword(password);
-        user.setRepositoryFiles(repositoryFiles);
+        user.setRepositoryFiles(repositoryFiles);*/
         mockMvc.perform(post("/getRepostiorySubTree").param("username",  userName
         ).param("password", password).param("url", url)).andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))

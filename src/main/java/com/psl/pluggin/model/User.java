@@ -18,7 +18,8 @@ public class User {
 	boolean isUrlAccessible;
 	boolean isAuthorised;
 	List<RepositoryFile>  repositoryFiles;
-
+	String repositoryName;
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -68,6 +69,14 @@ public class User {
 		this.repositoryFiles = repositoryFiles;
 	}
 
+	public String getRepositoryName() {
+		return repositoryName;
+	}
+
+	public void setRepositoryName(String repositoryName) {
+		this.repositoryName = repositoryName;
+	}
+	
 	@Override
 	public String toString() {
 		return "User [userName=" + userName + ", url=" + url

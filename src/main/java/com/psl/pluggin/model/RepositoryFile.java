@@ -8,6 +8,7 @@ public class RepositoryFile {
 	String fileHtmlPath;
 	String fileOrDirectory;
 	String fileContent;
+	String relativePath;
 
 	public RepositoryFile(String fileName, String fileHtmlPath,
 			String fileOrDirectory) {
@@ -48,7 +49,13 @@ public class RepositoryFile {
 	public void setFileContent(String fileContent) {
 		this.fileContent = fileContent;
 	}
-	
-	
+
+	public String getRelativePath() {
+		return relativePath;
+	}
+
+	public void setRelativePath(String relativePath) {
+		this.relativePath = relativePath;
+	}
 
 }
